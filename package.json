@@ -1,0 +1,11 @@
+{
+  "name": "gr8-backend",
+  "version": "1.0.0",
+  "description": "This is the most complex backend i have ever builded (Production Grade)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gaurav Jawalkar",
+  "license": "ISC"
+}
