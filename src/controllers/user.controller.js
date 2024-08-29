@@ -28,7 +28,7 @@ const registerUser = async (req, res) => {
         throw new ApiError(400, `Every field is required`)
     }
 
-    const existingUser = User.findOne({
+    const existingUser = await User.findOne({
         $or: [{ username }, { email }]
     })
 
@@ -37,7 +37,7 @@ const registerUser = async (req, res) => {
     }
 
     const avatarLocalPath = req.files?.avatar[0]?.path;
-    const coverImageLocalPath = req.files?.coverImage[0]?.path;
+    const coverImageLocalPath = req.files?.CoverImage[0]?.path;
     console.log(req.files)
     console.log(avatarLocalPath)
 
