@@ -5,16 +5,13 @@ import { ApiResponse } from '../utils/ApiResponse.js'
 
 
 const registerUser = async (req, res) => {
-    await res.status(200).json({
-        message: "OK"
-    })
 
     // Get User Details from frontend 
-    // validation
+    // validation : If the user already exists
     // check if user already exist:username,email
     // check for images, check for avatar
     // upload images to cloudinary
-    // create user object - create entry in database
+    //  create user object - create entry in database
     // remove password and refresh token field from response
     // check for user creation
     // return res
@@ -36,10 +33,18 @@ const registerUser = async (req, res) => {
         throw new ApiError(409, 'User with Username or Email already exists.')
     }
 
+
+    // Here the .files access is given nby multer to use te files which are uploaded on the system temporarily in the public/temp dir and use their functionality like path , originalname,filename,etc
+
     const avatarLocalPath = req.files?.avatar[0]?.path;
-    const coverImageLocalPath = req.files?.CoverImage[0]?.path;
-    console.log(req.files)
-    console.log(avatarLocalPath)
+    // const coverImageLocalPath = req.files?.CoverImage[0]?.path;
+    // console.log(req.files)
+    // console.log(avatarLocalPath)
+    let coverImageLocalPath;
+
+    if (req.files && Array.isArray(req.files.CoverImage) && req.files.CoverImage.length > 0) {
+        coverImageLocalPath = req.files.CoverImage[0].path
+    }
 
     if (!avatarLocalPath) {
         throw new ApiError(400, "Avtar File is required")
