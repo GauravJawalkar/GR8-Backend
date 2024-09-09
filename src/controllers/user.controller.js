@@ -158,7 +158,7 @@ const loginUser = async (req, res) => {
 const logoutUser = async (req, res) => {
     User.findByIdAndUpdate(
         req.user._id,
-        { $set: { refreshToken: undefined } },
+        { $unset: { refreshToken: 1 } },
         { new: true }
     )
 
@@ -278,25 +278,28 @@ const updateAccountDetails = async (req, res) => {
 
 // Changing and updating avatar img file by taking access of "req.files" from the multer middleware
 const updateAvatar = async (req, res) => {
-    const avatarLocalPath = req.file?.path
-    const avatarImageToBeDeleted = req.file?.avatar[0]?.path
+    console.log("Update Avatar function starts here")
+    const avatarLocalPath = req.files?.path
+    console.log(avatarLocalPath);
+    // const avatarImageToBeDeleted = req.file?.avatar[0]?.path
 
 
     if (!avatarLocalPath) {
         throw new ApiError(400, "Avatar file is Missing");
     }
-    await User.findByIdAndDelete(req.user._id,
-        {
-            $unset: {
-                avatar: avatarImageToBeDeleted
-            }
-        }
-    )
+
+    // await User.findByIdAndDelete(req.user._id,
+    //     {
+    //         $unset: {
+    //             avatar: avatarImageToBeDeleted
+    //         }
+    //     }
+    // )
 
     const avatar = await uploadOnCloudinary(avatarLocalPath)
 
     if (!avatar.url) {
-        throw new ApiError(400, "Error whiile uploading on avatar");
+        throw new ApiError(400, "Error while uploading on avatar");
     }
 
     const user = await User.findByIdAndUpdate(req.user?._id,
@@ -418,7 +421,7 @@ const getWatchHistory = async (req, res) => {
     const user = await User.aggregate([
         {
             $match: {
-                _id: mongoose.Types.ObjectId(req.user._id)
+                _id: new mongoose.Types.ObjectId(req.user._id)
             }
         },
         {
