@@ -353,6 +353,8 @@ const updateCoverImage = async (req, res) => {
 const getUserChannelProfile = async (req, res) => {
 
     const { username } = req.params;
+    console.log(req.params)
+    // console.log(name) //getting it from the api url which i am passing through postman
 
     if (!username?.trim()) {
         throw new ApiError(400, "username is missing")
@@ -412,7 +414,16 @@ const getUserChannelProfile = async (req, res) => {
         }
     ])
 
-    console.log(channel)
+    // console.log(channel)
+
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, {
+            channelName: req.params[username],
+        },
+            "User Channel fetched successfully"
+        ))
 
 }
 
