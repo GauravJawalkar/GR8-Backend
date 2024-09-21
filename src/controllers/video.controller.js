@@ -22,14 +22,14 @@ const publishVideos = async (req, res) => {
     // 1. Verify the user is authenticated or not -- Done
     // 2. Take video title, description -- Done
     // 3. Check the title and description of the video -- Done
-    // 4. Check for videos
-    // 5. Upload to cloudinary
-    // 6. Create a video object : Create a video field in database
-    // 7. Check for Video creation database in database
-    // 8.  return response
+    // 4. Check for videos -- Done
+    // 5. Upload to cloudinary -- Done
+    // 6. Create a video object : Create a video field in database -- Done
+    // 7. Check for Video creation database in database -- Done
+    // 8.  return response -- Done
 
     const { title, description, views, isPublished, duration } = req.body;
- 
+
     if (!(title && description)) {
         throw new ApiError(400, "title and description is required")
     }
@@ -59,8 +59,8 @@ const publishVideos = async (req, res) => {
         }
     )
 
-    if (!VideoFile) {
-        throw new ApiError(400, "Video File not uploaded on cloudinary")
+    if (!video) {
+        throw new ApiError(400, "Video File not uploaded on cloudinary and document not created in database")
     }
 
     return res
